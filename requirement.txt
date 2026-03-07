@@ -1,0 +1,27 @@
+Create a CRM web application using the next.js. The crm web application will connect to the dummy API
+
+For the UI Componet stack, use tailwind css for styling, Sharedcn for components,  
+Lucide React for iconography.
+
+Start with simple functional specification below:
+1. Authentication
+2. Landing Page show "hello world"
+
+You need to create a dummy API with endpoint call "processor" with the following http request payload:
+Method: Post
+Content-type: application/json
+Sample request body: {"act_id":100, "data":{"user_id":"john", "password":"abc123"}}
+All the api request to the "processor" endpoint will contain the "act_id" and "data".
+act_id are use to represent each the action type. 
+Example: act_id:100 for login process, act_id:101 for forget password & etc
+
+"processor" endpoint with return the following http response:
+http status code: 200
+response data: {"code":0, "message":"Succss", data:{[{"user_id:":"john", "name":"John Lau"}]}}
+
+When the fontend receive the response data with code:0, consider the request is success. If code <> 0, consider failed.
+
+
+
+
+
