@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
+import sql from 'mssql'
+import { getDbPool } from '@/lib/db'
 import type { ProcessorRequest } from '@/types/api'
-
-// Dummy credentials for Phase 1 — replace with real auth in production
-const DUMMY_USERS = [{ user_id: 'john', password: 'abc123', name: 'John Lau' }]
 
 export async function POST(request: Request) {
   let body: ProcessorRequest
@@ -12,43 +11,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ code: 9997, message: 'Invalid JSON body', data: [] })
   }
 
-  const { act_id, data } = body
+  try {
+    const pool = await getDbPool()
+    const req = pool.request()
+    req.input('input_json', sql.NVarChar(sql.MAX), JSON.stringify(body))
+    req.output('output_json', sql.NVarChar(sql.MAX))
 
-  switch (act_id) {
-    case 100: {
-      // LOGIN
-      const { user_id, password } = data as { user_id: string; password: string }
-      const user = DUMMY_USERS.find(
-        (u) => u.user_id === user_id && u.password === password
-      )
-      if (user) {
-        return NextResponse.json({
-          code: 0,
-          message: 'Success',
-          data: [{ user_id: user.user_id, name: user.name }],
-        })
-      }
-      return NextResponse.json({
-        code: 1001,
-        message: 'Invalid credentials',
-        data: [],
-      })
-    }
+    const result = await req.execute('crm_sp_processor')
+    const outputJson: string = result.output.output_json
 
-    case 101: {
-      // FORGOT PASSWORD
-      return NextResponse.json({
-        code: 0,
-        message: 'Reset email sent',
-        data: [],
-      })
-    }
-
-    default:
-      return NextResponse.json({
-        code: 9999,
-        message: 'Unknown action',
-        data: [],
-      })
+    const responseData = JSON.parse(outputJson)
+    return NextResponse.json(responseData)
+  } catch (err) {
+    console.error('[processor] DB error:', err)
+    return NextResponse.json({ code: 9996, message: 'Database error', data: [] })
   }
 }

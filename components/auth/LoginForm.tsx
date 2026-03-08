@@ -32,6 +32,7 @@ export function LoginForm() {
     e.preventDefault();
     reset();
     const result = await execute(ACT_ID.LOGIN, { user_id: userId, password });
+    console.log(result);
     if (result.code === 0 && result.data[0]) {
       setSessionCookie(result.data[0]);
       router.push("/dashboard");
