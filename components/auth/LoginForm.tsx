@@ -19,13 +19,12 @@ import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { useApiProcessor } from "@/hooks/useApiProcessor";
 import { setSessionCookie } from "@/lib/auth";
 import { ACT_ID } from "@/types/api";
-import type { LoginResponseData } from "@/types/api";
+import type { UserSession } from "@/types/auth";
 
 export function LoginForm() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const { execute, isLoading, error, reset } =
-    useApiProcessor<LoginResponseData>();
+  const { execute, isLoading, error, reset } = useApiProcessor();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,8 +32,8 @@ export function LoginForm() {
     reset();
     const result = await execute(ACT_ID.LOGIN, { user_id: userId, password });
     console.log(result);
-    if (result.code === 0 && result.data[0]) {
-      setSessionCookie(result.data[0]);
+    if (result.code === 0 && result.data) {
+      setSessionCookie(result.data as UserSession);
       router.push("/dashboard");
     }
   };

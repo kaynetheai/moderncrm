@@ -5,4 +5,5 @@ https://github.com/kaynetheai/mordercrm.git
 
 Server=stevenai-test2.database.windows.net,1433;Initial Catalog=free-sql-db-4096674;Persist Security Info=False;User ID=stevenai.msn@hotmail.com;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Authentication="Active Directory Integrated";
 
+ADO.NET (SQL authentication):
 Server=tcp:stevenai-test2.database.windows.net,1433;Initial Catalog=free-sql-db-4096674;Persist Security Info=False;User ID=sa66123;Password=Money123@66123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;

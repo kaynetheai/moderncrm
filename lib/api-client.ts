@@ -13,6 +13,6 @@ export async function apiProcessor<T = unknown>(
     const json: ProcessorResponse<T> = await res.json()
     return json
   } catch {
-    return { code: 9998, message: 'Network error. Please try again.', data: [] }
+    return { code: 9998, message: 'Network error. Please try again.', data: {} as T }
   }
 }
