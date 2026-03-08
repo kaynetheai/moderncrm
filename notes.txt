@@ -1,0 +1,3 @@
+curl -X POST -H "Content-Type: application/json" -d '{"act_id":100,"data":{"user_id":"john","password":"abc123"}}' http://localhost:3001/api/processor
+
+https://github.com/kaynetheai/mordercrm.git
