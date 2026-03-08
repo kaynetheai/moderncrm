@@ -13,17 +13,12 @@ export interface ProcessorRequest {
 export interface ProcessorResponse<T = unknown> {
   code: number
   message: string
-  data: T[]
+  data: T
 }
 
 export interface LoginRequestData {
   user_id: string
   password: string
-}
-
-export interface LoginResponseData {
-  user_id: string
-  name: string
 }
 
 export interface ForgotPasswordRequestData {
